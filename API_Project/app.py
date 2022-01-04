@@ -2,12 +2,12 @@ from flask import Flask, jsonify, request, current_app
 from flask.json import JSONEncoder
 from sqlalchemy import create_engine, text
 
+# 22:58
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj): #default method를 over write 함.
         if isinstance(obj, set): #set타입이라면 list로 변환한다.
             return list(obj)
         return JSONEncoder.default(self, obj)
-
 #app.json_encoder = CustomJSONEncoder
 
 def create_app(test_config = None): #flask가 자동으로 이 함수를 인식함. 또한 test_config라는 인자를 받아 유닛테스트때 사용.
