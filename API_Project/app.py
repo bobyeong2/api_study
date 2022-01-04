@@ -60,7 +60,7 @@ def sign_up():
     }).fetchone()
     
     created_user = {
-        'id'      : row['id'],
+        'id'      : row['id'], 
         'name'    : row['name'],
         'email'   : row['email'],
         'profile' : row['profile']
