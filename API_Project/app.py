@@ -11,12 +11,12 @@ from flask_cors import CORS
 ## Default JSON encoder는 set를 JSON으로 변환할 수 없다.
 ## 그럼으로 커스텀 엔코더를 작성해서 set을 list로 변환하여
 ## JSON으로 변환 가능하게 해주어야 한다.
-class CustomJSONEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, set):
-            return list(obj)
+# class CustomJSONEncoder(JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, set):
+#             return list(obj)
 
-        return JSONEncoder.default(self, obj)
+#         return JSONEncoder.default(self, obj)
 
 def get_user(user_id):
     user = current_app.database.execute(text("""
@@ -114,29 +114,29 @@ def get_user_id_and_password(email):
         'hashed_password' : row['hashed_password']
     } if row else None
 
-#########################################################
-#       Decorators
-#########################################################
-def login_required(f):      
-    @wraps(f)                   
-    def decorated_function(*args, **kwargs):
-        access_token = request.headers.get('Authorization') 
-        if access_token is not None:  
-            try:
-                payload = jwt.decode(access_token, current_app.config['JWT_SECRET_KEY'], 'HS256') 
-            except jwt.InvalidTokenError:
-                 payload = None     
+# #########################################################
+# #       Decorators
+# #########################################################
+# def login_required(f):      
+#     @wraps(f)                   
+#     def decorated_function(*args, **kwargs):
+#         access_token = request.headers.get('Authorization') 
+#         if access_token is not None:  
+#             try:
+#                 payload = jwt.decode(access_token, current_app.config['JWT_SECRET_KEY'], 'HS256') 
+#             except jwt.InvalidTokenError:
+#                  payload = None     
 
-            if payload is None: return Response(status=401)  
+#             if payload is None: return Response(status=401)  
 
-            user_id   = payload['user_id']  
-            g.user_id = user_id
-            g.user    = get_user(user_id) if user_id else None
-        else:
-            return Response(status = 401)  
+#             user_id   = payload['user_id']  
+#             g.user_id = user_id
+#             g.user    = get_user(user_id) if user_id else None
+#         else:
+#             return Response(status = 401)  
 
-        return f(*args, **kwargs)
-    return decorated_function
+#         return f(*args, **kwargs)
+#     return decorated_function
 
 def create_app(test_config = None):
     app = Flask(__name__)
