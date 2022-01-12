@@ -4,7 +4,7 @@ class UserDao:
         self.db = database
     
     def insert_user(self,user):
-        return self.db.excute(text("""
+        return self.db.execute(text("""
             INSERT INTO users(
                 name, email, profile, hashed_password
             ) VALUES(
@@ -13,7 +13,7 @@ class UserDao:
         """), user).lastrowid
 
     def get_user_id_and_password(self,email):
-        row = self.db.excute(text("""
+        row = self.db.execute(text("""
             SELECT
                 id, hashed_password
             FROM users
@@ -26,7 +26,7 @@ class UserDao:
         }
 
     def insert_follow(self,user_id,follow_id):
-        return self.db.excute(text("""
+        return self.db.execute(text("""
             INSERT INTO user_follow_list(
                 user_id, follow_user_id
             ) VALUES(
